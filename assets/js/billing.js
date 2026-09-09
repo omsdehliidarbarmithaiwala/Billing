@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', function () {
   var SHOP_BACKUP_PHONE = '919820260299';
   var SHOP_GST = '27ABZPT1488R1Z4';
   var SHOP_FSSAI = '21521015000240';
+  var SHOP_WEBSITE = 'https://omsdehliidarbarmithaiwala.github.io/Our-Website/';
+  var SHOP_MAPS = 'https://maps.google.com/?q=Om%27s%20Dehlii%20Darbar%20Mithaiwala%2C%20Shop%20No.%2020%2C%20Shivaji%20Nagar%2C%20Delisle%20Road%2C%20Lower%20Parel%20%28E%29%2C%20Mumbai%20400013';
   var SHOP_ADDR = "Shop No. 20, Shivaji Nagar, Delisle Road, Lower Parel (E), Mumbai — 400 013";
   var SHOP_PHONES = "99208 79952 / 98202 60299";
 
@@ -609,16 +611,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var now = new Date();
     var dateStr = now.toLocaleDateString('en-IN');
-    var timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
+    var timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
 
     var header = isBackup ? '🛡️ *[SHOP RECORD & BACKUP COPY]*\n' : '';
 
     var msg = header +
               '👑 *OM\'S DEHLII DARBAR MITHAIWALA (Since 1947)*\n' +
               '📍 *Shop No. 20, Delisle Road, Lower Parel, Mumbai — 400 013*\n' +
-              '📞 *Tel:* ' + SHOP_PHONES + '\n' +
-              '🏛️ *GSTIN:* ' + SHOP_GST + '\n' +
-              '📜 *FSSAI Lic:* ' + SHOP_FSSAI + '\n' +
+              '📞 *Hotline:* ' + SHOP_PHONES + '\n' +
+              '🌐 *Our Official Website & Menu:* ' + SHOP_WEBSITE + '\n' +
+              '🏛️ *GSTIN:* ' + SHOP_GST + ' | *FSSAI Lic:* ' + SHOP_FSSAI + '\n' +
               '-----------------------------------------\n' +
               '🧾 *TAX INVOICE / CASH BILL*\n' +
               '🔢 *Bill No:* ' + invoiceNum + '\n' +
@@ -634,14 +636,54 @@ document.addEventListener('DOMContentLoaded', function () {
 
     msg += '⭐ *GRAND TOTAL: ' + inr(grandTotal) + '*\n' +
            '-----------------------------------------\n' +
+           '📄 *Official PDF Tax Invoice attached / generated.*\n' +
+           '🌐 *Explore all sweets on our website:* ' + SHOP_WEBSITE + '\n' +
            '✨ *Freshness Rule:* Milk & Mawa sweets consume within 12 hours. Bengali sweets keep in fridge.\n' +
            '🙏 *Thank you for shopping with us! Have a sweet day!*';
 
     return msg;
   }
 
-  // DIRECT PHONE DISPATCH: WHATSAPP TO CUSTOMER
-  document.getElementById('btn-send-whatsapp').addEventListener('click', function () {
+  // GENERATE PDF BLOB HELPER
+  function generatePdfPromise() {
+    var container = document.getElementById('pos-royal-pdf-container');
+    if (!container) return Promise.reject('No PDF container');
+
+    container.style.position = 'relative';
+    container.style.left = '0';
+    container.style.top = '0';
+
+    var filename = 'Invoice_' + invoiceNum + '_' + (document.getElementById('cust-name').value || 'Customer').replace(/\s+/g, '_') + '.pdf';
+    var opt = {
+      margin: [10, 10, 10, 10],
+      filename: filename,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, logging: false },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    if (typeof html2pdf !== 'undefined') {
+      return html2pdf().set(opt).from(container).outputPdf('blob').then(function (blob) {
+        container.style.position = 'absolute';
+        container.style.left = '-9999px';
+        container.style.top = '-9999px';
+        return { blob: blob, filename: filename };
+      }).catch(function (e) {
+        container.style.position = 'absolute';
+        container.style.left = '-9999px';
+        container.style.top = '-9999px';
+        throw e;
+      });
+    } else {
+      container.style.position = 'absolute';
+      container.style.left = '-9999px';
+      container.style.top = '-9999px';
+      return Promise.resolve(null);
+    }
+  }
+
+  // DIRECT PHONE DISPATCH: WHATSAPP TO CUSTOMER (WITH WEBSITE LINK & PDF ATTACHMENT FLOW)
+  document.getElementById('btn-send-whatsapp').addEventListener('click', async function () {
     if (cart.length === 0) {
       alert('Please add at least one sweet item to the bill before dispatching.');
       return;
@@ -662,71 +704,116 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var finalPhone = phoneInput.length === 10 ? '91' + phoneInput : phoneInput;
     var msg = buildWhatsAppBillMessage(false);
-    var waUrl = 'https://wa.me/' + finalPhone + '?text=' + encodeURIComponent(msg);
-    window.open(waUrl, '_blank');
+
+    var btn = this;
+    var origText = btn.innerHTML;
+    btn.innerHTML = '⏳ Preparing WhatsApp Bill &amp; PDF...';
+    btn.disabled = true;
+
+    try {
+      var pdfResult = await generatePdfPromise();
+      
+      // If Web Share API is available on mobile and supports file sharing
+      if (pdfResult && navigator.canShare && navigator.share) {
+        var file = new File([pdfResult.blob], pdfResult.filename, { type: 'application/pdf' });
+        if (navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            title: "Om's Dehlii Darbar Bill " + invoiceNum,
+            text: msg,
+            files: [file]
+          });
+          btn.innerHTML = origText;
+          btn.disabled = false;
+          return;
+        }
+      }
+
+      // If downloaded or direct link fallback:
+      if (pdfResult && typeof html2pdf !== 'undefined') {
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(pdfResult.blob);
+        link.download = pdfResult.filename;
+        link.click();
+      }
+
+      var waUrl = 'https://wa.me/' + finalPhone + '?text=' + encodeURIComponent(msg);
+      window.open(waUrl, '_blank');
+    } catch (err) {
+      console.warn('PDF Share fallback:', err);
+      var waUrl = 'https://wa.me/' + finalPhone + '?text=' + encodeURIComponent(msg);
+      window.open(waUrl, '_blank');
+    } finally {
+      btn.innerHTML = origText;
+      btn.disabled = false;
+    }
   });
 
   // SEND SHOP RECORD BACKUP (+91 9820260299)
-  document.getElementById('btn-send-backup').addEventListener('click', function () {
+  document.getElementById('btn-send-backup').addEventListener('click', async function () {
     if (cart.length === 0) {
       alert('Please add items to bill first.');
       return;
     }
+
     var msg = buildWhatsAppBillMessage(true);
-    var waUrl = 'https://wa.me/' + SHOP_BACKUP_PHONE + '?text=' + encodeURIComponent(msg);
-    window.open(waUrl, '_blank');
+    var btn = this;
+    var origText = btn.innerHTML;
+    btn.innerHTML = '⏳ Preparing Shop Backup...';
+    btn.disabled = true;
+
+    try {
+      var pdfResult = await generatePdfPromise();
+      if (pdfResult && navigator.canShare && navigator.share) {
+        var file = new File([pdfResult.blob], pdfResult.filename, { type: 'application/pdf' });
+        if (navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            title: "Om's Dehlii Darbar Shop Record " + invoiceNum,
+            text: msg,
+            files: [file]
+          });
+          btn.innerHTML = origText;
+          btn.disabled = false;
+          return;
+        }
+      }
+
+      var waUrl = 'https://wa.me/' + SHOP_BACKUP_PHONE + '?text=' + encodeURIComponent(msg);
+      window.open(waUrl, '_blank');
+    } catch (e) {
+      var waUrl = 'https://wa.me/' + SHOP_BACKUP_PHONE + '?text=' + encodeURIComponent(msg);
+      window.open(waUrl, '_blank');
+    } finally {
+      btn.innerHTML = origText;
+      btn.disabled = false;
+    }
   });
 
   // DOWNLOAD PROPER ROYAL PDF BILL
-  document.getElementById('btn-download-pdf').addEventListener('click', function () {
+  document.getElementById('btn-download-pdf').addEventListener('click', async function () {
     if (cart.length === 0) {
       alert('Please add items to bill before downloading PDF.');
       return;
     }
 
-    var container = document.getElementById('pos-royal-pdf-container');
-    if (!container) return;
-
-    // Show loading state
     var btn = this;
     var origText = btn.innerHTML;
     btn.innerHTML = '⏳ Generating PDF...';
     btn.disabled = true;
 
-    // Temporarily bring container in view for rendering
-    container.style.position = 'relative';
-    container.style.left = '0';
-    container.style.top = '0';
-
-    var opt = {
-      margin: [10, 10, 10, 10],
-      filename: 'Invoice_' + invoiceNum + '_' + (document.getElementById('cust-name').value || 'Customer').replace(/\s+/g, '_') + '.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, logging: false },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-
-    if (typeof html2pdf !== 'undefined') {
-      html2pdf().set(opt).from(container).save().then(function () {
-        container.style.position = 'absolute';
-        container.style.left = '-9999px';
-        container.style.top = '-9999px';
-        btn.innerHTML = origText;
-        btn.disabled = false;
-      }).catch(function (err) {
-        console.error('PDF error:', err);
-        container.style.position = 'absolute';
-        container.style.left = '-9999px';
-        container.style.top = '-9999px';
-        btn.innerHTML = origText;
-        btn.disabled = false;
-        alert('PDF generated! If popup was blocked, please enable popups.');
-      });
-    } else {
+    try {
+      var pdfResult = await generatePdfPromise();
+      if (pdfResult) {
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(pdfResult.blob);
+        link.download = pdfResult.filename;
+        link.click();
+      } else {
+        window.print();
+      }
+    } catch (err) {
+      console.error('PDF error:', err);
       window.print();
-      container.style.position = 'absolute';
-      container.style.left = '-9999px';
-      container.style.top = '-9999px';
+    } finally {
       btn.innerHTML = origText;
       btn.disabled = false;
     }
@@ -749,7 +836,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var discAmount = (subtotal * discPct) / 100.0;
     var grandTotal = Math.max(0, subtotal + boxCharge - discAmount);
 
-    var smsText = "Om's Dehlii Darbar Bill " + invoiceNum + " for " + custName + ": Total " + inr(grandTotal) + " (" + cart.length + " items). GSTIN: " + SHOP_GST + ", FSSAI: " + SHOP_FSSAI + ". Thank you!";
+    var smsText = "Om's Dehlii Darbar Bill " + invoiceNum + " for " + custName + ": Total " + inr(grandTotal) + " (" + cart.length + " items). Website: " + SHOP_WEBSITE + " | GSTIN: " + SHOP_GST + ", FSSAI: " + SHOP_FSSAI + ". Thank you!";
     var smsUrl = 'sms:' + (phoneInput ? '+91' + phoneInput.slice(-10) : '') + '?body=' + encodeURIComponent(smsText);
     window.location.href = smsUrl;
   });
