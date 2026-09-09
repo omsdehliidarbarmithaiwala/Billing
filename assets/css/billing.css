@@ -53,6 +53,8 @@
   --green-wa: #25D366;
   --green-wa-dark: #1da851;
   --blue-sms: #1A56DB;
+  --purple-pdf: #7C3AED;
+  --purple-pdf-dark: #6D28D9;
   --danger: #DC2626;
   --shadow-sm: 0 2px 6px rgba(0,0,0,0.06);
   --shadow-md: 0 6px 18px rgba(0,0,0,0.1);
@@ -673,7 +675,7 @@ img {
   color: #fff;
   border-radius: var(--radius-md);
   font-weight: 800;
-  font-size: 16px;
+  font-size: 15.5px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -686,56 +688,89 @@ img {
   background: var(--green-wa-dark);
 }
 
-.pos-btn-wa:active {
-  transform: scale(0.99);
-}
-
-.pos-btn-sms {
+.pos-btn-pdf {
   width: 100%;
   padding: 12px;
-  background: var(--blue-sms);
+  background: linear-gradient(135deg, var(--burgundy) 0%, #8b1832 100%);
   color: #fff;
+  border: 1px solid var(--gold);
   border-radius: var(--radius-md);
-  font-weight: 700;
-  font-size: 14.5px;
+  font-weight: 800;
+  font-size: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  transition: opacity 0.2s;
+  box-shadow: 0 4px 12px rgba(106,16,36,0.25);
+  transition: transform 0.1s;
 }
 
-.pos-btn-sms:hover {
-  opacity: 0.9;
+.pos-btn-pdf:hover {
+  filter: brightness(1.1);
 }
 
-.pos-secondary-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-
-.pos-btn-print {
+.pos-btn-backup {
+  width: 100%;
   padding: 10px;
-  background: #fff;
-  border: 1.5px solid #c9beae;
-  border-radius: var(--radius-sm);
+  background: #fdf6ea;
+  border: 1.5px solid var(--gold);
+  color: var(--burgundy);
+  border-radius: var(--radius-md);
   font-weight: 700;
   font-size: 13.5px;
-  color: var(--text);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
+  transition: all 0.2s;
+}
+
+.pos-btn-backup:hover {
+  background: var(--gold);
+  color: #fff;
+}
+
+.pos-secondary-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+
+.pos-btn-sms {
+  padding: 9px;
+  background: #fff;
+  border: 1.5px solid var(--blue-sms);
+  color: var(--blue-sms);
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 12.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.pos-btn-print {
+  padding: 9px;
+  background: #fff;
+  border: 1.5px solid #c9beae;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 12.5px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
 }
 
 .pos-btn-clear {
-  padding: 10px;
+  padding: 9px;
   background: #fff;
   border: 1.5px solid #fca5a5;
   border-radius: var(--radius-sm);
   font-weight: 700;
-  font-size: 13.5px;
+  font-size: 12.5px;
   color: var(--danger);
 }
 
@@ -1031,6 +1066,173 @@ img {
   background: #155724;
 }
 
+/* ==========================================================================
+   ROYAL VISUALLY STUNNING PDF INVOICE TEMPLATE (OFFSCREEN RENDER CONTAINER)
+   ========================================================================== */
+#pos-royal-pdf-container {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  width: 794px; /* A4 standard width at 96 DPI */
+  background: #fff;
+  color: #211B14;
+  font-family: 'Lato', system-ui, -apple-system, sans-serif;
+  padding: 32px 36px;
+  box-sizing: border-box;
+}
+
+.pdf-invoice-box {
+  border: 2.5px solid var(--gold);
+  padding: 24px 28px;
+  background: #fff;
+  position: relative;
+}
+
+.pdf-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--burgundy);
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+}
+
+.pdf-brand-col {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.pdf-logo-img {
+  width: 75px;
+  height: 75px;
+}
+
+.pdf-shop-name {
+  font-family: 'Bitter', serif;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--burgundy);
+  line-height: 1.15;
+}
+
+.pdf-shop-sub {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.pdf-shop-addr {
+  font-size: 11.5px;
+  color: #4a4237;
+  line-height: 1.4;
+  margin-top: 3px;
+}
+
+.pdf-tax-badges {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.pdf-tax-pill {
+  background: #FAF4E8;
+  border: 1px solid var(--gold);
+  color: var(--burgundy-dark);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.pdf-inv-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #FAF6EE;
+  border: 1px solid #E8DECC;
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin-bottom: 18px;
+  gap: 12px;
+}
+
+.pdf-meta-col {
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.pdf-meta-col b {
+  color: var(--burgundy-dark);
+}
+
+.pdf-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 18px;
+}
+
+.pdf-table th {
+  background: var(--burgundy);
+  color: #fff;
+  font-family: 'Bitter', serif;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.pdf-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #EFE6D8;
+  font-size: 12.5px;
+}
+
+.pdf-table tr:nth-child(even) {
+  background: #FDFBF7;
+}
+
+.pdf-totals-section {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 18px;
+}
+
+.pdf-totals-table {
+  width: 300px;
+  border-collapse: collapse;
+}
+
+.pdf-totals-table td {
+  padding: 5px 8px;
+  font-size: 13px;
+}
+
+.pdf-totals-table tr.grand-row td {
+  border-top: 2px solid var(--burgundy);
+  font-family: 'Bitter', serif;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--burgundy);
+  padding-top: 8px;
+}
+
+.pdf-footer-notice {
+  border-top: 1.5px dashed var(--gold);
+  padding-top: 12px;
+  text-align: center;
+  font-size: 11px;
+  color: #6B6255;
+  line-height: 1.45;
+}
+
+.pdf-footer-notice b {
+  color: var(--burgundy);
+}
+
 /* --- PRINT RECEIPT STYLES --- */
 #pos-thermal-receipt {
   display: none;
@@ -1126,7 +1328,6 @@ img {
     gap: 12px;
   }
   
-  /* Mobile Tab switching */
   .pos-catalogue-card.mobile-hidden {
     display: none !important;
   }

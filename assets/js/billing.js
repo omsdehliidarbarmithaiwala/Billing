@@ -2,6 +2,12 @@
 document.addEventListener('DOMContentLoaded', function () {
   'use strict';
 
+  var SHOP_BACKUP_PHONE = '919820260299';
+  var SHOP_GST = '27ABZPT1488R1Z4';
+  var SHOP_FSSAI = '21521015000240';
+  var SHOP_ADDR = "Shop No. 20, Shivaji Nagar, Delisle Road, Lower Parel (E), Mumbai — 400 013";
+  var SHOP_PHONES = "99208 79952 / 98202 60299";
+
   // Live Counter Clock
   function updateClock() {
     var now = new Date();
@@ -105,7 +111,6 @@ document.addEventListener('DOMContentLoaded', function () {
   var tabCartBtn = document.getElementById('pos-tab-cart');
   var catalogueCard = document.getElementById('pos-catalogue-panel');
   var billCard = document.getElementById('pos-bill-panel');
-  var mobileFloatingBar = document.getElementById('pos-mobile-bottom-bar');
   var mobileBarViewBtn = document.getElementById('pos-m-bar-view-btn');
 
   // Modal DOM
@@ -354,7 +359,6 @@ document.addEventListener('DOMContentLoaded', function () {
     closeWeighModal();
     renderCart();
 
-    // Mobile badge update
     var mBadge = document.getElementById('pos-m-cart-badge');
     if (mBadge) mBadge.textContent = cart.length;
   });
@@ -449,8 +453,9 @@ document.addEventListener('DOMContentLoaded', function () {
     var mCount = document.getElementById('pos-m-bar-count-text');
     if (mCount) mCount.textContent = cart.length + ' items ' + (totalGrams > 0 ? '· ' + (totalGrams >= 1000 ? (totalGrams/1000).toFixed(3) + ' kg' : totalGrams + ' g') : '');
 
-    // Update Print Slip
+    // Update Print Slip & PDF Container
     updatePrintableSlip(subtotal, boxCharge, discAmount, grandTotal);
+    updatePdfContainer(subtotal, boxCharge, discAmount, grandTotal);
   }
 
   function updatePrintableSlip(subtotal, boxCharge, discAmount, grandTotal) {
@@ -498,6 +503,56 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('prn-grand-total').textContent = inr(grandTotal);
   }
 
+  function updatePdfContainer(subtotal, boxCharge, discAmount, grandTotal) {
+    var now = new Date();
+    document.getElementById('pdf-inv-no').textContent = invoiceNum;
+    document.getElementById('pdf-inv-date').textContent = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+    document.getElementById('pdf-inv-time').textContent = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
+
+    var custName = (document.getElementById('cust-name').value || '').trim() || 'Valued Patron';
+    var custPhone = (document.getElementById('cust-phone').value || '').trim() || 'Counter Sale';
+    document.getElementById('pdf-cust-name').textContent = custName;
+    document.getElementById('pdf-cust-phone').textContent = custPhone;
+
+    var pdfTbody = document.getElementById('pdf-table-body');
+    if (cart.length === 0) {
+      pdfTbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:16px">No sweets added to this invoice.</td></tr>';
+    } else {
+      pdfTbody.innerHTML = cart.map(function (row, idx) {
+        var rateStr = inrRound(row.rate) + (row.unit === 'box' ? '/box' : (row.unit === 'piece' ? '/pc' : '/kg'));
+        var wtStr = row.unit === 'kg' ? (row.grams >= 1000 ? (row.grams/1000).toFixed(3) + ' kg' : row.grams + ' g') : row.count + ' ' + (row.unit === 'box' ? (row.count > 1 ? 'boxes' : 'box') : (row.count > 1 ? 'pcs' : 'pc'));
+        var deva = row.nameHi ? ' <span style="font-size:11px;color:#7c6a55">(' + esc(row.nameHi) + ')</span>' : '';
+
+        return '<tr>' +
+          '<td style="text-align:center;font-weight:bold">' + (idx + 1) + '</td>' +
+          '<td><b>' + esc(row.name) + '</b>' + deva + '</td>' +
+          '<td style="text-align:center">' + rateStr + '</td>' +
+          '<td style="text-align:center"><b>' + wtStr + '</b></td>' +
+          '<td style="text-align:right;font-weight:bold;color:var(--burgundy)">' + inr(row.amount) + '</td>' +
+        '</tr>';
+      }).join('');
+    }
+
+    document.getElementById('pdf-subtotal').textContent = inr(subtotal);
+    var boxRow = document.getElementById('pdf-box-row');
+    if (boxCharge > 0) {
+      boxRow.style.display = '';
+      document.getElementById('pdf-box-charge').textContent = inr(boxCharge);
+    } else {
+      boxRow.style.display = 'none';
+    }
+
+    var discRow = document.getElementById('pdf-disc-row');
+    if (discAmount > 0) {
+      discRow.style.display = '';
+      document.getElementById('pdf-disc-amt').textContent = '-' + inr(discAmount);
+    } else {
+      discRow.style.display = 'none';
+    }
+
+    document.getElementById('pdf-grand-total').textContent = inr(grandTotal);
+  }
+
   // Event Listeners for Recalculation
   document.getElementById('pos-toggle-fancy-box').addEventListener('change', renderCart);
   document.getElementById('pos-discount-pct').addEventListener('input', renderCart);
@@ -533,28 +588,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // DIRECT PHONE DISPATCH: WHATSAPP
-  document.getElementById('btn-send-whatsapp').addEventListener('click', function () {
-    if (cart.length === 0) {
-      alert('Please add at least one sweet item to the bill before dispatching.');
-      return;
-    }
-
+  // HELPER: Build Full Formatted WhatsApp Message
+  function buildWhatsAppBillMessage(isBackup) {
     var phoneInput = document.getElementById('cust-phone').value.replace(/[^0-9]/g, '');
-    var custName = (document.getElementById('cust-name').value || '').trim() || 'Patron';
-
-    if (!phoneInput || phoneInput.length < 10) {
-      phoneInput = prompt('Please enter customer’s 10-digit mobile number to send WhatsApp bill:', '');
-      if (!phoneInput) return;
-      phoneInput = phoneInput.replace(/[^0-9]/g, '');
-      if (phoneInput.length < 10) {
-        alert('Valid 10-digit mobile number required.');
-        return;
-      }
-      document.getElementById('cust-phone').value = phoneInput.slice(-10);
-    }
-
-    var finalPhone = phoneInput.length === 10 ? '91' + phoneInput : phoneInput;
+    var custName = (document.getElementById('cust-name').value || '').trim() || 'Valued Patron';
 
     var subtotal = 0;
     var totalGrams = 0;
@@ -572,21 +609,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var now = new Date();
     var dateStr = now.toLocaleDateString('en-IN');
-    var timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+    var timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
 
-    var msg = '👑 *OM\'S DEHLII DARBAR MITHAIWALA (Since 1947)*\n' +
-              '📍 *Shop No. 20, Delisle Road, Lower Parel, Mumbai*\n' +
+    var header = isBackup ? '🛡️ *[SHOP RECORD & BACKUP COPY]*\n' : '';
+
+    var msg = header +
+              '👑 *OM\'S DEHLII DARBAR MITHAIWALA (Since 1947)*\n' +
+              '📍 *Shop No. 20, Delisle Road, Lower Parel, Mumbai — 400 013*\n' +
+              '📞 *Tel:* ' + SHOP_PHONES + '\n' +
+              '🏛️ *GSTIN:* ' + SHOP_GST + '\n' +
+              '📜 *FSSAI Lic:* ' + SHOP_FSSAI + '\n' +
               '-----------------------------------------\n' +
               '🧾 *TAX INVOICE / CASH BILL*\n' +
               '🔢 *Bill No:* ' + invoiceNum + '\n' +
               '📅 *Date:* ' + dateStr + ' ' + timeStr + '\n' +
-              '👤 *Customer:* ' + custName + '\n' +
+              '👤 *Customer:* ' + custName + ' (' + (phoneInput || 'Counter Sale') + ')\n' +
               '-----------------------------------------\n' +
               itemLines + '\n' +
               '-----------------------------------------\n' +
               '💰 *Subtotal:* ' + inr(subtotal) + '\n';
 
-    if (boxCharge > 0) msg += '🎁 *Fancy Gift Box:* ' + inr(boxCharge) + '\n';
+    if (boxCharge > 0) msg += '🎁 *Luxury Sweet Box:* ' + inr(boxCharge) + '\n';
     if (discAmount > 0) msg += '🏷️ *Discount (' + discPct + '%):* -' + inr(discAmount) + '\n';
 
     msg += '⭐ *GRAND TOTAL: ' + inr(grandTotal) + '*\n' +
@@ -594,8 +637,99 @@ document.addEventListener('DOMContentLoaded', function () {
            '✨ *Freshness Rule:* Milk & Mawa sweets consume within 12 hours. Bengali sweets keep in fridge.\n' +
            '🙏 *Thank you for shopping with us! Have a sweet day!*';
 
+    return msg;
+  }
+
+  // DIRECT PHONE DISPATCH: WHATSAPP TO CUSTOMER
+  document.getElementById('btn-send-whatsapp').addEventListener('click', function () {
+    if (cart.length === 0) {
+      alert('Please add at least one sweet item to the bill before dispatching.');
+      return;
+    }
+
+    var phoneInput = document.getElementById('cust-phone').value.replace(/[^0-9]/g, '');
+
+    if (!phoneInput || phoneInput.length < 10) {
+      phoneInput = prompt('Please enter customer’s 10-digit mobile number to send WhatsApp bill:', '');
+      if (!phoneInput) return;
+      phoneInput = phoneInput.replace(/[^0-9]/g, '');
+      if (phoneInput.length < 10) {
+        alert('Valid 10-digit mobile number required.');
+        return;
+      }
+      document.getElementById('cust-phone').value = phoneInput.slice(-10);
+    }
+
+    var finalPhone = phoneInput.length === 10 ? '91' + phoneInput : phoneInput;
+    var msg = buildWhatsAppBillMessage(false);
     var waUrl = 'https://wa.me/' + finalPhone + '?text=' + encodeURIComponent(msg);
     window.open(waUrl, '_blank');
+  });
+
+  // SEND SHOP RECORD BACKUP (+91 9820260299)
+  document.getElementById('btn-send-backup').addEventListener('click', function () {
+    if (cart.length === 0) {
+      alert('Please add items to bill first.');
+      return;
+    }
+    var msg = buildWhatsAppBillMessage(true);
+    var waUrl = 'https://wa.me/' + SHOP_BACKUP_PHONE + '?text=' + encodeURIComponent(msg);
+    window.open(waUrl, '_blank');
+  });
+
+  // DOWNLOAD PROPER ROYAL PDF BILL
+  document.getElementById('btn-download-pdf').addEventListener('click', function () {
+    if (cart.length === 0) {
+      alert('Please add items to bill before downloading PDF.');
+      return;
+    }
+
+    var container = document.getElementById('pos-royal-pdf-container');
+    if (!container) return;
+
+    // Show loading state
+    var btn = this;
+    var origText = btn.innerHTML;
+    btn.innerHTML = '⏳ Generating PDF...';
+    btn.disabled = true;
+
+    // Temporarily bring container in view for rendering
+    container.style.position = 'relative';
+    container.style.left = '0';
+    container.style.top = '0';
+
+    var opt = {
+      margin: [10, 10, 10, 10],
+      filename: 'Invoice_' + invoiceNum + '_' + (document.getElementById('cust-name').value || 'Customer').replace(/\s+/g, '_') + '.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, logging: false },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    if (typeof html2pdf !== 'undefined') {
+      html2pdf().set(opt).from(container).save().then(function () {
+        container.style.position = 'absolute';
+        container.style.left = '-9999px';
+        container.style.top = '-9999px';
+        btn.innerHTML = origText;
+        btn.disabled = false;
+      }).catch(function (err) {
+        console.error('PDF error:', err);
+        container.style.position = 'absolute';
+        container.style.left = '-9999px';
+        container.style.top = '-9999px';
+        btn.innerHTML = origText;
+        btn.disabled = false;
+        alert('PDF generated! If popup was blocked, please enable popups.');
+      });
+    } else {
+      window.print();
+      container.style.position = 'absolute';
+      container.style.left = '-9999px';
+      container.style.top = '-9999px';
+      btn.innerHTML = origText;
+      btn.disabled = false;
+    }
   });
 
   // DIRECT PHONE DISPATCH: SMS
@@ -615,7 +749,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var discAmount = (subtotal * discPct) / 100.0;
     var grandTotal = Math.max(0, subtotal + boxCharge - discAmount);
 
-    var smsText = "Om's Dehlii Darbar Bill " + invoiceNum + " for " + custName + ": Total " + inr(grandTotal) + " (" + cart.length + " items). Thank you!";
+    var smsText = "Om's Dehlii Darbar Bill " + invoiceNum + " for " + custName + ": Total " + inr(grandTotal) + " (" + cart.length + " items). GSTIN: " + SHOP_GST + ", FSSAI: " + SHOP_FSSAI + ". Thank you!";
     var smsUrl = 'sms:' + (phoneInput ? '+91' + phoneInput.slice(-10) : '') + '?body=' + encodeURIComponent(smsText);
     window.location.href = smsUrl;
   });
