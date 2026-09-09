@@ -2144,17 +2144,12 @@ img {
    ROYAL A4 PDF INVOICE TEMPLATE - PERFECT FIT
    ============================================= */
 #pos-royal-pdf-container {
-  position: absolute;
-  left: -9999px;
-  top: -9999px;
-  width: 575px;
+  display: none;
+  width: 100%;
   background: #ffffff;
   color: #211B14;
   font-family: 'Lato', system-ui, -apple-system, sans-serif;
   box-sizing: border-box;
-  opacity: 0;
-  pointer-events: none;
-  z-index: -9999;
 }
 
 .pdf-invoice-box {
