@@ -1,7 +1,5 @@
 @charset "UTF-8";
 
-
-
 /* --- GOOGLE & LOCAL FONTS --- */
 
 @font-face {
@@ -74,8 +72,6 @@
 
 }
 
-
-
 /* --- THEME VARIABLES --- */
 
 :root {
@@ -136,8 +132,6 @@
 
 }
 
-
-
 /* --- BASE RESETS --- */
 
 *, *::before, *::after {
@@ -151,8 +145,6 @@
   -webkit-tap-highlight-color: transparent;
 
 }
-
-
 
 html, body {
 
@@ -174,8 +166,6 @@ html, body {
 
 }
 
-
-
 input, button, select, textarea {
 
   font-family: inherit;
@@ -183,8 +173,6 @@ input, button, select, textarea {
   font-size: inherit;
 
 }
-
-
 
 button {
 
@@ -196,8 +184,6 @@ button {
 
 }
 
-
-
 img {
 
   max-width: 100%;
@@ -207,8 +193,6 @@ img {
   display: block;
 
 }
-
-
 
 /* --- APP HEADER --- */
 
@@ -230,8 +214,6 @@ img {
 
 }
 
-
-
 .pos-header-inner {
 
   max-width: 1400px;
@@ -250,8 +232,6 @@ img {
 
 }
 
-
-
 .pos-brand {
 
   display: flex;
@@ -265,8 +245,6 @@ img {
   color: #fff;
 
 }
-
-
 
 .pos-brand-logo {
 
@@ -286,8 +264,6 @@ img {
 
 }
 
-
-
 .pos-brand-title {
 
   font-family: var(--font-serif);
@@ -302,8 +278,6 @@ img {
 
 }
 
-
-
 .pos-brand-sub {
 
   font-size: 11px;
@@ -316,8 +290,6 @@ img {
 
 }
 
-
-
 .pos-header-status {
 
   display: flex;
@@ -327,8 +299,6 @@ img {
   gap: 14px;
 
 }
-
-
 
 .pos-live-pill {
 
@@ -354,8 +324,6 @@ img {
 
 }
 
-
-
 .pos-live-dot {
 
   width: 8px;
@@ -372,8 +340,6 @@ img {
 
 }
 
-
-
 @keyframes pulse-dot {
 
   0% { transform: scale(0.95); opacity: 0.8; }
@@ -383,8 +349,6 @@ img {
   100% { transform: scale(0.95); opacity: 0.8; }
 
 }
-
-
 
 .pos-clock {
 
@@ -399,8 +363,6 @@ img {
   color: var(--gold-light);
 
 }
-
-
 
 /* --- MOBILE VIEW TOGGLE TABS (Phones only) --- */
 
@@ -417,8 +379,6 @@ img {
   border-bottom: 1px solid rgba(196,152,79,0.3);
 
 }
-
-
 
 .pos-m-tab-btn {
 
@@ -448,8 +408,6 @@ img {
 
 }
 
-
-
 .pos-m-tab-btn.active {
 
   background: #fff;
@@ -459,8 +417,6 @@ img {
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 
 }
-
-
 
 .pos-m-badge {
 
@@ -478,15 +434,11 @@ img {
 
 }
 
-
-
 .pos-m-tab-btn.active .pos-m-badge {
 
   background: var(--burgundy);
 
 }
-
-
 
 /* --- MAIN LAYOUT --- */
 
@@ -500,8 +452,6 @@ img {
 
 }
 
-
-
 .pos-layout-grid {
 
   display: grid;
@@ -513,8 +463,6 @@ img {
   align-items: start;
 
 }
-
-
 
 /* --- LEFT PANEL: CATALOGUE --- */
 
@@ -536,8 +484,6 @@ img {
 
 }
 
-
-
 .pos-search-bar {
 
   padding: 12px 16px;
@@ -554,8 +500,6 @@ img {
 
 }
 
-
-
 .pos-search-input-wrap {
 
   flex: 1;
@@ -563,8 +507,6 @@ img {
   position: relative;
 
 }
-
-
 
 .pos-search-input-wrap svg {
 
@@ -585,8 +527,6 @@ img {
   pointer-events: none;
 
 }
-
-
 
 .pos-search-input {
 
@@ -610,8 +550,6 @@ img {
 
 }
 
-
-
 .pos-search-input:focus {
 
   border-color: var(--burgundy);
@@ -619,8 +557,6 @@ img {
   box-shadow: 0 0 0 3px rgba(106,16,36,0.12);
 
 }
-
-
 
 .pos-btn-custom {
 
@@ -650,8 +586,6 @@ img {
 
 }
 
-
-
 .pos-btn-custom:hover, .pos-btn-custom:active {
 
   background: var(--gold);
@@ -659,8 +593,6 @@ img {
   color: #fff;
 
 }
-
-
 
 /* CATEGORY SCROLL PILLS */
 
@@ -684,15 +616,11 @@ img {
 
 }
 
-
-
 .pos-category-scroll::-webkit-scrollbar {
 
   display: none;
 
 }
-
-
 
 .pos-cat-pill {
 
@@ -718,8 +646,6 @@ img {
 
 }
 
-
-
 .pos-cat-pill.active {
 
   background: var(--burgundy);
@@ -731,8 +657,6 @@ img {
   box-shadow: 0 2px 6px rgba(106,16,36,0.25);
 
 }
-
-
 
 /* SWEETS TOUCH GRID */
 
@@ -751,8 +675,6 @@ img {
   overflow-y: auto;
 
 }
-
-
 
 .pos-item-card {
 
@@ -778,8 +700,6 @@ img {
 
 }
 
-
-
 .pos-item-card:hover {
 
   transform: translateY(-2px);
@@ -790,15 +710,11 @@ img {
 
 }
 
-
-
 .pos-item-card:active {
 
   transform: scale(0.98);
 
 }
-
-
 
 .pos-item-card-plus {
 
@@ -832,8 +748,6 @@ img {
 
 }
 
-
-
 .pos-item-img-wrap {
 
   width: 100%;
@@ -850,8 +764,6 @@ img {
 
 }
 
-
-
 .pos-item-img-wrap img {
 
   width: 100%;
@@ -861,8 +773,6 @@ img {
   object-fit: cover;
 
 }
-
-
 
 .pos-item-title {
 
@@ -880,8 +790,6 @@ img {
 
 }
 
-
-
 .pos-item-deva {
 
   font-size: 12px;
@@ -891,8 +799,6 @@ img {
   margin-bottom: 6px;
 
 }
-
-
 
 .pos-item-price-row {
 
@@ -910,8 +816,6 @@ img {
 
 }
 
-
-
 .pos-item-rate {
 
   font-family: var(--font-display);
@@ -924,8 +828,6 @@ img {
 
 }
 
-
-
 .pos-item-unit {
 
   font-size: 11px;
@@ -935,8 +837,6 @@ img {
   font-weight: 600;
 
 }
-
-
 
 /* --- RIGHT PANEL: LIVE CART & DISPATCH --- */
 
@@ -960,8 +860,6 @@ img {
 
 }
 
-
-
 .pos-bill-top {
 
   background: linear-gradient(135deg, #FAF4E8 0%, #F5ECDB 100%);
@@ -980,8 +878,6 @@ img {
 
 }
 
-
-
 .pos-bill-title {
 
   font-family: var(--font-serif);
@@ -993,8 +889,6 @@ img {
   color: var(--burgundy);
 
 }
-
-
 
 .pos-inv-chip {
 
@@ -1016,8 +910,6 @@ img {
 
 }
 
-
-
 /* CUSTOMER DETAILS */
 
 .pos-cust-section {
@@ -1036,8 +928,6 @@ img {
 
 }
 
-
-
 .pos-field-group {
 
   display: flex;
@@ -1047,8 +937,6 @@ img {
   gap: 4px;
 
 }
-
-
 
 .pos-field-group label {
 
@@ -1063,8 +951,6 @@ img {
   color: var(--muted);
 
 }
-
-
 
 .pos-field-input {
 
@@ -1084,8 +970,6 @@ img {
 
 }
 
-
-
 .pos-field-input:focus {
 
   border-color: var(--burgundy);
@@ -1093,8 +977,6 @@ img {
   background: #fff;
 
 }
-
-
 
 /* CART ROWS TABLE */
 
@@ -1110,8 +992,6 @@ img {
 
 }
 
-
-
 .pos-cart-empty-view {
 
   text-align: center;
@@ -1121,8 +1001,6 @@ img {
   color: var(--muted);
 
 }
-
-
 
 .pos-cart-empty-view svg {
 
@@ -1135,8 +1013,6 @@ img {
   margin-bottom: 8px;
 
 }
-
-
 
 .pos-cart-item-row {
 
@@ -1154,23 +1030,17 @@ img {
 
 }
 
-
-
 .pos-cart-item-row:last-child {
 
   border-bottom: none;
 
 }
 
-
-
 .pos-cart-item-meta {
 
   flex: 1;
 
 }
-
-
 
 .pos-cart-item-name {
 
@@ -1182,8 +1052,6 @@ img {
 
 }
 
-
-
 .pos-cart-item-calc {
 
   font-size: 12px;
@@ -1191,8 +1059,6 @@ img {
   color: var(--muted);
 
 }
-
-
 
 .pos-cart-item-amount {
 
@@ -1210,8 +1076,6 @@ img {
 
 }
 
-
-
 .pos-cart-del-btn {
 
   color: #dc2626;
@@ -1226,15 +1090,11 @@ img {
 
 }
 
-
-
 .pos-cart-del-btn:hover {
 
   background: #fee2e2;
 
 }
-
-
 
 /* SUMMARY & CONTROLS */
 
@@ -1254,8 +1114,6 @@ img {
 
 }
 
-
-
 .pos-toggle-row {
 
   display: flex;
@@ -1270,8 +1128,6 @@ img {
 
 }
 
-
-
 .pos-summary-line {
 
   display: flex;
@@ -1285,8 +1141,6 @@ img {
   color: var(--muted);
 
 }
-
-
 
 .pos-summary-line.grand {
 
@@ -1304,8 +1158,6 @@ img {
 
 }
 
-
-
 .pos-summary-line.grand .pos-grand-amt {
 
   font-family: var(--font-display);
@@ -1315,8 +1167,6 @@ img {
   color: var(--burgundy);
 
 }
-
-
 
 /* ACTION BUTTONS */
 
@@ -1335,8 +1185,6 @@ img {
   gap: 10px;
 
 }
-
-
 
 .pos-btn-wa {
 
@@ -1368,15 +1216,11 @@ img {
 
 }
 
-
-
 .pos-btn-wa:hover {
 
   background: var(--green-wa-dark);
 
 }
-
-
 
 .pos-btn-pdf {
 
@@ -1410,15 +1254,11 @@ img {
 
 }
 
-
-
 .pos-btn-pdf:hover {
 
   filter: brightness(1.1);
 
 }
-
-
 
 .pos-btn-backup {
 
@@ -1450,8 +1290,6 @@ img {
 
 }
 
-
-
 .pos-btn-backup:hover {
 
   background: var(--gold);
@@ -1460,19 +1298,11 @@ img {
 
 }
 
-
-
 .pos-secondary-actions {
-
   display: grid;
-
-  grid-template-columns: 1fr 1fr 1fr;
-
+  grid-template-columns: 1fr 1fr;
   gap: 8px;
-
 }
-
-
 
 .pos-btn-sms {
 
@@ -1500,8 +1330,6 @@ img {
 
 }
 
-
-
 .pos-btn-print {
 
   padding: 9px;
@@ -1528,8 +1356,6 @@ img {
 
 }
 
-
-
 .pos-btn-clear {
 
   padding: 9px;
@@ -1548,15 +1374,11 @@ img {
 
 }
 
-
-
 .pos-btn-clear:hover {
 
   background: #fef2f2;
 
 }
-
-
 
 /* --- MOBILE BOTTOM FLOATING CART BAR (Phones only) --- */
 
@@ -1586,8 +1408,6 @@ img {
 
 }
 
-
-
 .pos-m-bar-inner {
 
   display: flex;
@@ -1600,8 +1420,6 @@ img {
 
 }
 
-
-
 .pos-m-bar-info {
 
   display: flex;
@@ -1610,8 +1428,6 @@ img {
 
 }
 
-
-
 .pos-m-bar-count {
 
   font-size: 12px;
@@ -1619,8 +1435,6 @@ img {
   color: var(--gold-light);
 
 }
-
-
 
 .pos-m-bar-total {
 
@@ -1633,8 +1447,6 @@ img {
   color: #fff;
 
 }
-
-
 
 .pos-m-bar-btn {
 
@@ -1659,8 +1471,6 @@ img {
   box-shadow: 0 2px 6px rgba(0,0,0,0.3);
 
 }
-
-
 
 /* --- TOUCH-FRIENDLY WEIGHING MODAL --- */
 
@@ -1692,8 +1502,6 @@ img {
 
 }
 
-
-
 .pos-modal-overlay.active {
 
   opacity: 1;
@@ -1701,8 +1509,6 @@ img {
   visibility: visible;
 
 }
-
-
 
 .pos-modal-box {
 
@@ -1728,8 +1534,6 @@ img {
 
 }
 
-
-
 @keyframes modal-pop {
 
   0% { transform: scale(0.92); opacity: 0; }
@@ -1737,8 +1541,6 @@ img {
   100% { transform: scale(1); opacity: 1; }
 
 }
-
-
 
 .pos-modal-header {
 
@@ -1756,8 +1558,6 @@ img {
 
 }
 
-
-
 .pos-modal-header h3 {
 
   font-family: var(--font-serif);
@@ -1767,8 +1567,6 @@ img {
   font-weight: 800;
 
 }
-
-
 
 .pos-modal-close {
 
@@ -1781,8 +1579,6 @@ img {
   padding: 4px;
 
 }
-
-
 
 .pos-modal-body {
 
@@ -1799,8 +1595,6 @@ img {
   overflow-y: auto;
 
 }
-
-
 
 .pos-modal-item-summary {
 
@@ -1820,8 +1614,6 @@ img {
 
 }
 
-
-
 .pos-modal-item-img {
 
   width: 64px;
@@ -1840,8 +1632,6 @@ img {
 
 }
 
-
-
 .pos-modal-item-name {
 
   font-family: var(--font-serif);
@@ -1853,8 +1643,6 @@ img {
   color: var(--burgundy-dark);
 
 }
-
-
 
 .pos-modal-item-rate-badge {
 
@@ -1878,8 +1666,6 @@ img {
 
 }
 
-
-
 /* QUICK GRAM CHIPS (TOUCH) */
 
 .pos-chips-label {
@@ -1898,8 +1684,6 @@ img {
 
 }
 
-
-
 .pos-chips-grid {
 
   display: grid;
@@ -1909,8 +1693,6 @@ img {
   gap: 8px;
 
 }
-
-
 
 .pos-chip-btn {
 
@@ -1934,8 +1716,6 @@ img {
 
 }
 
-
-
 .pos-chip-btn:active, .pos-chip-btn.active {
 
   background: var(--burgundy);
@@ -1948,8 +1728,6 @@ img {
 
 }
 
-
-
 /* NUMBER & STEPPER INPUT */
 
 .pos-input-stepper-wrap {
@@ -1961,8 +1739,6 @@ img {
   gap: 8px;
 
 }
-
-
 
 .pos-stepper-btn {
 
@@ -1990,15 +1766,11 @@ img {
 
 }
 
-
-
 .pos-stepper-btn:active {
 
   background: #e5dac7;
 
 }
-
-
 
 .pos-gram-input {
 
@@ -2028,8 +1800,6 @@ img {
 
 }
 
-
-
 .pos-gram-unit-tag {
 
   font-size: 14px;
@@ -2041,8 +1811,6 @@ img {
   padding: 0 4px;
 
 }
-
-
 
 /* REAL TIME FORMULA CARD */
 
@@ -2060,8 +1828,6 @@ img {
 
 }
 
-
-
 .pos-calc-formula-text {
 
   font-size: 13.5px;
@@ -2071,8 +1837,6 @@ img {
   margin-bottom: 2px;
 
 }
-
-
 
 .pos-calc-price-big {
 
@@ -2088,8 +1852,6 @@ img {
 
 }
 
-
-
 .pos-calc-detail-sub {
 
   font-size: 12px;
@@ -2099,8 +1861,6 @@ img {
   margin-top: 2px;
 
 }
-
-
 
 .pos-btn-modal-add {
 
@@ -2124,15 +1884,11 @@ img {
 
 }
 
-
-
 .pos-btn-modal-add:active {
 
   background: #155724;
 
 }
-
-
 
 /* ==========================================================================
 
@@ -2150,11 +1906,14 @@ img {
   color: #211B14;
   font-family: 'Lato', system-ui, -apple-system, sans-serif;
   box-sizing: border-box;
+  padding: 0 14px 0 6px;
 }
 
 .pdf-invoice-box {
   box-sizing: border-box;
   width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
   border: 2px solid #C49A45;
   padding: 14px 16px;
   background: #ffffff;
@@ -2217,7 +1976,7 @@ img {
   align-items: flex-end;
   gap: 3px;
   flex-shrink: 0;
-  width: 165px;
+  width: 175px;
 }
 
 .pdf-tax-pill {
@@ -2232,6 +1991,7 @@ img {
   display: block;
   width: 100%;
   text-align: right;
+  box-sizing: border-box;
 }
 
 .pdf-inv-meta-grid {
@@ -2352,399 +2112,13 @@ img {
   opacity: 1;
 }
 
-
-
 /* ==========================================================================
-   RESPONSIVE MEDIA QUERIES & MOBILE-FIRST OPTIMIZATIONS
+   THERMAL RECEIPT SLIP (80mm ESC/POS PRINT & PREVIEW)
    ========================================================================== */
-
-/* Quick Add Chips on Sweet Cards */
-.pos-card-chips {
-  display: flex;
-  gap: 4px;
-  margin-top: 8px;
-  width: 100%;
-}
-
-.pos-card-chip {
-  flex: 1;
-  padding: 6px 2px;
-  background: #FAF6EE;
-  border: 1px solid #C49A45;
-  border-radius: 5px;
-  font-size: 11px;
-  font-weight: 700;
-  color: #5C061C;
-  text-align: center;
-  cursor: pointer;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-  transition: all 0.15s ease;
-}
-
-.pos-card-chip:hover {
-  background: #C49A45;
-  color: #ffffff;
-}
-
-.pos-card-chip:active {
-  background: #5C061C;
-  color: #ffffff;
-  transform: scale(0.95);
-}
-
-.pos-card-chip.weigh {
-  flex: 0 0 32px;
-  background: #F4EBE1;
-  font-size: 12px;
-}
-
-.pos-item-quick-weigh-badge {
-  position: absolute;
-  bottom: 6px;
-  right: 6px;
-  background: rgba(56, 3, 16, 0.85);
-  color: #FAF4E8;
-  font-size: 9.5px;
-  font-weight: 700;
-  padding: 2px 6px;
-  border-radius: 4px;
-  pointer-events: none;
-}
-
-.pos-btn-back-catalogue {
+#pos-thermal-receipt {
   display: none;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 14px;
-  background: #FAF6EE;
-  border: 1.5px solid #C49A45;
-  color: #5C061C;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 800;
-  cursor: pointer;
-  touch-action: manipulation;
-  transition: all 0.15s ease;
 }
 
-.pos-btn-back-catalogue:active {
-  background: #C49A45;
-  color: #fff;
-}
-
-.pos-btn-browse-sweets {
-  display: inline-block;
-  margin-top: 12px;
-  padding: 10px 22px;
-  background: #5C061C;
-  color: #FAF4E8;
-  border: none;
-  border-radius: 8px;
-  font-size: 13.5px;
-  font-weight: 700;
-  cursor: pointer;
-  touch-action: manipulation;
-}
-
-.pos-btn-browse-sweets:active {
-  background: #C49A45;
-  color: #380310;
-}
-
-/* TABLETS (<= 1024px) */
-@media (max-width: 1024px) {
-  .pos-layout-grid {
-    grid-template-columns: 1fr 390px;
-    gap: 14px;
-  }
-  .pos-items-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  }
-}
-
-/* SMARTPHONES & MOBILE SCREENS (<= 900px) */
-@media (max-width: 900px) {
-  body {
-    padding-bottom: 84px; /* Space for sticky bottom bar */
-  }
-
-  .pos-app-header {
-    padding: 8px 12px;
-  }
-
-  .pos-brand-logo {
-    width: 36px;
-    height: 36px;
-  }
-
-  .pos-brand-title {
-    font-size: 15px;
-  }
-
-  .pos-brand-sub {
-    font-size: 9.5px;
-  }
-
-  .pos-header-status {
-    gap: 5px;
-  }
-
-  .pos-live-pill {
-    padding: 2px 6px;
-    font-size: 9.5px;
-  }
-
-  .pos-clock {
-    font-size: 10.5px;
-  }
-
-  /* MOBILE TABS (STICKY TOP UNDER HEADER) */
-  .pos-mobile-tabs {
-    display: flex !important;
-    position: sticky;
-    top: 0;
-    z-index: 95;
-    background: #460917;
-    padding: 8px 10px;
-    gap: 8px;
-    border-bottom: 2px solid #C49A45;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.25);
-  }
-
-  .pos-m-tab-btn {
-    flex: 1;
-    padding: 11px 12px;
-    border-radius: 8px;
-    font-size: 13.5px;
-    font-weight: 700;
-    color: #F8EDDC;
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(196,154,69,0.35);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    cursor: pointer;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .pos-m-tab-btn.active {
-    background: #C49A45;
-    color: #380310;
-    border-color: #FDFBF7;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  }
-
-  .pos-m-badge {
-    background: #800c24;
-    color: #fff;
-    padding: 2px 7px;
-    border-radius: 10px;
-    font-size: 11px;
-    font-weight: 800;
-  }
-
-  .pos-m-tab-btn.active .pos-m-badge {
-    background: #380310;
-    color: #FAF4E8;
-  }
-
-  /* MAIN CONTAINER AND 1-COLUMN LAYOUT */
-  .pos-main-container {
-    padding: 8px 8px 90px 8px;
-    max-width: 100vw;
-    box-sizing: border-box;
-    overflow-x: hidden;
-  }
-
-  .pos-layout-grid {
-    display: block !important;
-    width: 100% !important;
-  }
-
-  /* MOBILE TAB SWITCHING VISIBILITY */
-  .pos-catalogue-card.mobile-hidden,
-  .pos-bill-card.mobile-hidden {
-    display: none !important;
-  }
-
-  .pos-catalogue-card {
-    display: flex;
-    width: 100%;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    margin-bottom: 14px;
-    overflow: hidden;
-  }
-
-  .pos-bill-card {
-    display: flex;
-    width: 100%;
-    border-radius: 10px;
-    position: static;
-    margin-bottom: 14px;
-  }
-
-  /* SHOW BACK BUTTON ON MOBILE BILL */
-  .pos-btn-back-catalogue {
-    display: flex !important;
-  }
-
-  /* CATEGORY SCROLL PILLS */
-  .pos-category-scroll {
-    padding: 8px 8px;
-    gap: 6px;
-  }
-
-  .pos-cat-pill {
-    padding: 6px 12px;
-    font-size: 12px;
-    white-space: nowrap;
-    border-radius: 18px;
-  }
-
-  /* 2-COLUMN SWEETS GRID ON MOBILE */
-  .pos-items-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 8px !important;
-    padding: 8px !important;
-    max-height: none !important;
-    overflow: visible !important;
-  }
-
-  .pos-item-card {
-    padding: 6px;
-    border-radius: 8px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-  }
-
-  .pos-item-img-wrap {
-    height: 108px !important;
-    border-radius: 6px;
-    position: relative;
-  }
-
-  .pos-item-title {
-    font-size: 12.5px !important;
-    line-height: 1.25;
-    margin-top: 4px;
-  }
-
-  .pos-item-deva {
-    font-size: 10px !important;
-  }
-
-  .pos-item-price-row {
-    margin-top: 3px;
-  }
-
-  .pos-item-rate {
-    font-size: 14px !important;
-  }
-
-  /* STICKY BOTTOM BAR */
-  .pos-mobile-bottom-bar {
-    display: block !important;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 99;
-    background: #380310;
-    color: #fff;
-    padding: 10px 14px;
-    box-shadow: 0 -4px 16px rgba(0,0,0,0.35);
-    border-top: 2px solid #C49A45;
-  }
-
-  .pos-m-bar-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    max-width: 500px;
-    margin: 0 auto;
-  }
-
-  .pos-m-bar-info {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .pos-m-bar-count {
-    font-size: 11px;
-    color: #C49A45;
-    font-weight: 700;
-    text-transform: uppercase;
-  }
-
-  .pos-m-bar-total {
-    font-size: 17px;
-    font-weight: 800;
-    color: #fff;
-    font-family: 'Bitter', serif;
-  }
-
-  .pos-m-bar-btn {
-    padding: 11px 16px;
-    background: #28a745;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 13.5px;
-    font-weight: 800;
-    cursor: pointer;
-    touch-action: manipulation;
-  }
-
-  .pos-m-bar-btn:active {
-    background: #1e7e34;
-  }
-
-  /* TOUCH FRIENDLY FORM INPUTS */
-  .pos-cust-section {
-    grid-template-columns: 1fr !important;
-    gap: 8px;
-  }
-
-  .pos-field-input {
-    font-size: 16px !important; /* Prevents auto-zoom on iOS Safari */
-    padding: 10px 12px;
-  }
-
-  .pos-btn-whatsapp-large {
-    font-size: 15px !important;
-    padding: 14px 16px !important;
-  }
-
-  /* MODAL RESIZING FOR MOBILE SCREENS */
-  .pos-modal-box {
-    max-width: 94vw;
-    max-height: 90vh;
-    border-radius: 12px;
-  }
-
-  .pos-modal-body {
-    padding: 12px 14px;
-  }
-
-  .pos-chips-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
-  }
-
-  .pos-chip-btn {
-    padding: 10px 2px;
-    font-size: 13px;
-  }
-}
-
-/* PRINT STYLES */
 @media print {
   body * {
     visibility: hidden !important;
@@ -2754,16 +2128,158 @@ img {
   }
   #pos-thermal-receipt {
     display: block !important;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 80mm;
-    margin: 0;
-    padding: 6mm;
-    font-family: 'Courier New', monospace;
-    font-size: 12px;
-    line-height: 1.3;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 80mm !important;
+    max-width: 80mm !important;
+    margin: 0 !important;
+    padding: 4mm 3mm !important;
+    box-sizing: border-box !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-family: 'Courier New', Courier, monospace, system-ui !important;
+    font-size: 11px !important;
+    line-height: 1.3 !important;
+  }
+
+  #pos-thermal-receipt .prn-header {
+    text-align: center;
+    border-bottom: 1px dashed #000;
+    padding-bottom: 2.5mm;
+    margin-bottom: 2mm;
+  }
+
+  #pos-thermal-receipt .prn-header h2 {
+    font-size: 15px;
+    font-weight: 900;
+    margin: 0 0 2px 0;
+    letter-spacing: 0.5px;
     color: #000;
-    background: #fff;
+  }
+
+  #pos-thermal-receipt .prn-header p {
+    margin: 1.5px 0;
+    font-size: 10px;
+    color: #000;
+  }
+
+  #pos-thermal-receipt .prn-meta-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2mm;
+    font-size: 10.5px;
+  }
+
+  #pos-thermal-receipt .prn-meta-table td {
+    padding: 1.5px 0;
+    vertical-align: top;
+  }
+
+  #pos-thermal-receipt .prn-items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2mm;
+  }
+
+  #pos-thermal-receipt .prn-items-table th {
+    border-top: 1px dashed #000;
+    border-bottom: 1px dashed #000;
+    padding: 2.5px 0;
+    font-size: 10.5px;
+    text-transform: uppercase;
+  }
+
+  #pos-thermal-receipt .prn-items-table td {
+    padding: 2px 0;
+    font-size: 11px;
+    vertical-align: top;
+    border-bottom: 1px dotted #888;
+  }
+
+  #pos-thermal-receipt .prn-summary {
+    border-top: 1px dashed #000;
+    border-bottom: 1px dashed #000;
+    padding: 2mm 0;
+    margin-bottom: 2mm;
+  }
+
+  #pos-thermal-receipt .prn-sum-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 1.5px 0;
+    font-size: 11px;
+  }
+
+  #pos-thermal-receipt .prn-grand-row {
+    font-size: 13.5px;
+    font-weight: 900;
+    border-top: 1px dashed #000;
+    padding-top: 2mm;
+    margin-top: 1.5mm;
+  }
+
+  #pos-thermal-receipt .prn-footer {
+    text-align: center;
+    font-size: 9.5px;
+    line-height: 1.35;
+    margin-top: 2mm;
+  }
+
+  #pos-thermal-receipt .prn-footer p {
+    margin: 1.5px 0;
+  }
+}
+
+/* --- RESPONSIVE MEDIA QUERIES (TABLETS & PHONES) --- */
+@media (max-width: 1024px) {
+  .pos-layout-grid {
+    grid-template-columns: 1fr 380px;
+    gap: 14px;
+  }
+  .pos-items-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .pos-mobile-tabs {
+    display: flex;
+  }
+  .pos-mobile-bottom-bar {
+    display: block;
+  }
+  .pos-main-container {
+    padding: 10px 10px 84px 10px;
+  }
+  .pos-layout-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .pos-catalogue-card.mobile-hidden {
+    display: none !important;
+  }
+  .pos-bill-card.mobile-hidden {
+    display: none !important;
+  }
+  
+  .pos-bill-card {
+    position: static;
+  }
+  .pos-items-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 10px;
+    max-height: none;
+  }
+  .pos-item-title {
+    font-size: 13.5px;
+  }
+  .pos-chips-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .pos-cust-section {
+    grid-template-columns: 1fr;
   }
 }
