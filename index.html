@@ -263,19 +263,19 @@
     <div class="pdf-header-row">
       <div class="pdf-brand-col">
         <img class="pdf-logo-img" src="assets/img/logo.svg" alt="Logo">
-        <div>
+        <div style="min-width:0">
           <h1 class="pdf-shop-name">OM'S DEHLII DARBAR</h1>
-          <div class="pdf-shop-sub">Mithaiwala — Since 1947 · Mithai n More</div>
+          <div class="pdf-shop-sub">Mithaiwala &mdash; Since 1947 &middot; Mithai n More</div>
           <div class="pdf-shop-addr">
-            Shop No. 20, Shivaji Nagar, Delisle Road, Lower Parel (E), Mumbai — 400 013<br>
+            Shop No. 20, Shivaji Nagar, Delisle Road, Lower Parel (E), Mumbai &mdash; 400 013<br>
             <b>Order Hotline:</b> +91 99208 79952 / +91 98202 60299
           </div>
         </div>
       </div>
       <div class="pdf-tax-badges">
         <div class="pdf-tax-pill">GSTIN: <b>27ABZPT1488R1Z4</b></div>
-        <div class="pdf-tax-pill">FSSAI Lic: <b>21521015000240</b></div>
-        <div style="font-size:12px;font-weight:bold;color:var(--burgundy);margin-top:4px">TAX INVOICE / CASH BILL</div>
+        <div class="pdf-tax-pill">FSSAI: <b>21521015000240</b></div>
+        <div style="font-size:9px;font-weight:bold;color:#5C061C;margin-top:3px;text-align:right">TAX INVOICE / CASH BILL</div>
       </div>
     </div>
 
@@ -283,8 +283,8 @@
     <div class="pdf-inv-meta-grid">
       <div class="pdf-meta-col">
         <div><b>Invoice No:</b> <span id="pdf-inv-no">ODD-2026-0001</span></div>
-        <div><b>Invoice Date:</b> <span id="pdf-inv-date">09 Sep 2026</span> (<span id="pdf-inv-time">13:00</span>)</div>
-        <div><b>Payment Mode:</b> Cash / UPI / Counter POS</div>
+        <div><b>Date:</b> <span id="pdf-inv-date">09 Sep 2026</span> (<span id="pdf-inv-time">13:00 pm</span>)</div>
+        <div><b>Payment:</b> Cash / UPI / Counter POS</div>
       </div>
       <div class="pdf-meta-col">
         <div><b>Billed To:</b> <span id="pdf-cust-name" style="font-weight:bold">Valued Patron</span></div>
@@ -293,15 +293,15 @@
       </div>
     </div>
 
-        <!-- ITEMIZED GOODS TABLE -->
+    <!-- ITEMIZED GOODS TABLE -->
     <table class="pdf-table">
       <thead>
         <tr>
-          <th style="width:6%">#</th>
-          <th style="width:44%">Mithai / Item Description</th>
-          <th style="width:16%;text-align:center">Rate (₹)</th>
-          <th style="width:16%;text-align:center">Qty / Weight</th>
-          <th style="width:18%;text-align:right">Amount (₹)</th>
+          <th style="width:5%">#</th>
+          <th style="width:45%">Mithai / Item Description</th>
+          <th style="width:17%;text-align:center">Rate</th>
+          <th style="width:17%;text-align:center">Qty/Wt</th>
+          <th style="width:16%;text-align:right">Amount</th>
         </tr>
       </thead>
       <tbody id="pdf-table-body">
@@ -314,28 +314,30 @@
       <table class="pdf-totals-table">
         <tr>
           <td><b>Subtotal:</b></td>
-          <td style="text-align:right" id="pdf-subtotal">₹0.00</td>
+          <td style="text-align:right" id="pdf-subtotal">&#8377;0.00</td>
         </tr>
         <tr id="pdf-box-row" style="display:none">
           <td><b>Luxury Sweet Box:</b></td>
-          <td style="text-align:right" id="pdf-box-charge">+₹50.00</td>
+          <td style="text-align:right" id="pdf-box-charge">+&#8377;50.00</td>
         </tr>
         <tr id="pdf-disc-row" style="display:none">
           <td><b>Special Discount:</b></td>
-          <td style="text-align:right;color:var(--danger)" id="pdf-disc-amt">-₹0.00</td>
+          <td style="text-align:right;color:#c0392b" id="pdf-disc-amt">-&#8377;0.00</td>
         </tr>
         <tr class="grand-row">
           <td><b>GRAND TOTAL:</b></td>
-          <td style="text-align:right" id="pdf-grand-total">₹0.00</td>
+          <td style="text-align:right" id="pdf-grand-total">&#8377;0.00</td>
         </tr>
       </table>
     </div>
 
-    <!-- ROYAL FOOTER & FRESHNESS NOTICE -->
-    <div class="pdf-footer-notice">
-      <p><b>✨ FRESHNESS RULES:</b> Milk &amp; Mawa sweets should be consumed same day within 12 hours. Bengali sweets should be kept in fridge and consumed within 6 hours.</p>
-      <p style="margin-top:4px">Pure Ghee Mithais · Zero Adulteration · Made in our kitchen on Delisle Road since 1947.</p>
-      <p style="margin-top:6px;font-weight:bold;color:var(--burgundy)">🙏 Thank you for choosing Om's Dehlii Darbar Mithaiwala! Have a sweet and auspicious day!</p>
+    <!-- FRESHNESS & LOYALTY FOOTER -->
+    <div class="pdf-loyalty-box">
+      <div style="font-size:9px;font-weight:bold;color:#5C061C;margin-bottom:4px">&#11088; FRESHNESS RULES</div>
+      <div>Milk &amp; Mawa sweets should be consumed same day within 12 hours. Bengali sweets should be kept in fridge (within 6 hrs).</div>
+      <div style="margin-top:4px;font-style:italic">Pure Ghee Mithais &middot; Zero Adulteration &middot; Made in our kitchen on Delisle Road since 1947.</div>
+      <div style="margin-top:5px;font-weight:bold;color:#5C061C">&#128142; Thank you for choosing Om's Dehlii Darbar Mithaiwala! Have a sweet and auspicious day!</div>
+      <div style="margin-top:5px;font-size:8.5px;color:#7A6B58">&#127760; Visit our website: <b>https://omsdehliidarbarmithaiwala.github.io/Our-Website/</b></div>
     </div>
   </div>
 </div>
