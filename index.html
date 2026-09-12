@@ -6,10 +6,10 @@
 <title>Counter POS Billing Terminal — Om's Dehlii Darbar Mithaiwala (Since 1947)</title>
 <meta name="description" content="Official Counter POS Billing System for Om's Dehlii Darbar Mithaiwala. Gram-accurate sweet weighing & pricing, customer digital invoice generation, GST & FSSAI certified PDF bills, and 1-tap WhatsApp & SMS dispatch.">
 <meta name="theme-color" content="#460917">
-<link rel="stylesheet" href="assets/css/billing.css?v=2026-09-09b">
-<script src="assets/js/products.js?v=2026-09-09b" defer></script>
+<link rel="stylesheet" href="assets/css/billing.css?v=2026-09-12b">
+<script src="assets/js/products.js?v=2026-09-12b" defer></script>
 <script src="assets/js/html2pdf.bundle.min.js" defer></script>
-<script src="assets/js/billing.js?v=2026-09-09b" defer></script>
+<script src="assets/js/billing.js?v=2026-09-12b" defer></script>
 <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
 </head>
 <body>
@@ -222,6 +222,27 @@
             <input type="number" id="modal-input-grams" class="pos-gram-input" value="250" min="1" step="1" inputmode="numeric">
             <span class="pos-gram-unit-tag">GRAMS</span>
             <button class="pos-stepper-btn" id="modal-gram-plus" type="button">+50g</button>
+          </div>
+        </div>
+
+        <!-- NUMBER OF BOXES / PACKS (QUANTITY MULTIPLIER FOR WEIGHT) -->
+        <div style="margin-top:14px">
+          <div class="pos-chips-label" style="display:flex;justify-content:space-between;align-items:center">
+            <span>Number of Boxes / Packs (डिब्बे / Quantity):</span>
+            <span style="font-weight:normal;color:var(--muted);font-size:11px">e.g. 4 boxes of 250g</span>
+          </div>
+          <div class="pos-chips-grid" style="grid-template-columns: repeat(5, 1fr); margin-bottom: 8px;">
+            <button class="pos-chip-box-btn active" type="button" data-boxes="1">1 Box</button>
+            <button class="pos-chip-box-btn" type="button" data-boxes="2">2 Boxes</button>
+            <button class="pos-chip-box-btn" type="button" data-boxes="4">4 Boxes</button>
+            <button class="pos-chip-box-btn" type="button" data-boxes="5">5 Boxes</button>
+            <button class="pos-chip-box-btn" type="button" data-boxes="10">10 Boxes</button>
+          </div>
+          <div class="pos-input-stepper-wrap">
+            <button class="pos-stepper-btn" id="modal-box-minus" type="button">-1</button>
+            <input type="number" id="modal-input-boxes" class="pos-gram-input" value="1" min="1" max="500" step="1" inputmode="numeric">
+            <span class="pos-gram-unit-tag">BOX(ES)</span>
+            <button class="pos-stepper-btn" id="modal-box-plus" type="button">+1</button>
           </div>
         </div>
       </div>

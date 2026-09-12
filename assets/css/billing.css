@@ -1060,6 +1060,65 @@ img {
 
 }
 
+/* CART QUANTITY BADGES & STEPPERS */
+.pos-cart-item-qty-tag {
+  display: inline-block;
+  background: #fceddb;
+  color: var(--burgundy);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 6px;
+  border: 1px solid #ebd0ba;
+  vertical-align: middle;
+}
+
+.pos-cart-item-qty-adjust {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #fdfaf6;
+  border: 1px solid #e7d8c5;
+  border-radius: 6px;
+  padding: 2px 4px;
+}
+
+.pos-cart-qty-btn {
+  width: 26px;
+  height: 26px;
+  border: none;
+  background: #f0e4d2;
+  color: var(--burgundy);
+  font-weight: bold;
+  font-size: 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: all 0.15s ease;
+}
+
+.pos-cart-qty-btn:hover {
+  background: #ded0bc;
+}
+
+.pos-cart-qty-btn:active {
+  background: var(--burgundy);
+  color: #fff;
+}
+
+.pos-cart-qty-val {
+  font-size: 12px;
+  font-weight: 700;
+  min-width: 20px;
+  text-align: center;
+  color: var(--text);
+}
+
+
 .pos-cart-item-amount {
 
   font-family: var(--font-display);
@@ -1694,7 +1753,7 @@ img {
 
 }
 
-.pos-chip-btn {
+.pos-chip-btn, .pos-chip-box-btn {
 
   padding: 12px 4px;
 
@@ -1716,7 +1775,13 @@ img {
 
 }
 
-.pos-chip-btn:active, .pos-chip-btn.active {
+.pos-chip-btn:hover, .pos-chip-box-btn:hover {
+
+  background: #edd8c4;
+
+}
+
+.pos-chip-btn:active, .pos-chip-btn.active, .pos-chip-box-btn:active, .pos-chip-box-btn.active {
 
   background: var(--burgundy);
 

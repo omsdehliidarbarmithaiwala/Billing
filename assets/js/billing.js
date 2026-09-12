@@ -135,6 +135,10 @@ document.addEventListener('DOMContentLoaded', function () {
   var modalCountPlus = document.getElementById('modal-count-plus');
   var modalGramMinus = document.getElementById('modal-gram-minus');
   var modalGramPlus = document.getElementById('modal-gram-plus');
+  var modalInputBoxes = document.getElementById('modal-input-boxes');
+  var modalBoxMinus = document.getElementById('modal-box-minus');
+  var modalBoxPlus = document.getElementById('modal-box-plus');
+  var boxChipButtons = document.querySelectorAll('.pos-chip-box-btn');
 
   function switchMobileView(view) {
     var mobileBottomBar = document.getElementById('pos-mobile-bottom-bar');
@@ -226,12 +230,19 @@ document.addEventListener('DOMContentLoaded', function () {
       modalWeightControls.style.display = 'block';
       modalCountControls.style.display = 'none';
       modalInputGrams.value = '250';
+      if (modalInputBoxes) modalInputBoxes.value = '1';
       
       document.querySelectorAll('.pos-chip-btn').forEach(function (chip) {
         if (chip.getAttribute('data-grams') === '250') chip.classList.add('active');
         else chip.classList.remove('active');
       });
-      recalcModalGramPrice(250);
+      if (boxChipButtons) {
+        boxChipButtons.forEach(function (chip) {
+          if (chip.getAttribute('data-boxes') === '1') chip.classList.add('active');
+          else chip.classList.remove('active');
+        });
+      }
+      recalcModalGramPrice(250, 1);
     } else {
       modalWeightControls.style.display = 'none';
       modalCountControls.style.display = 'block';
@@ -252,18 +263,31 @@ document.addEventListener('DOMContentLoaded', function () {
     if (e.target === modalOverlay) closeWeighModal();
   });
 
-  // Calculate Exact Gram Price: (Rate / 1000) * grams
-  function recalcModalGramPrice(grams) {
+  // Calculate Exact Gram Price: (Rate / 1000) * grams * boxes
+  function recalcModalGramPrice(grams, boxes) {
     if (!selectedItemForModal || selectedItemForModal.unit !== 'kg') return;
     grams = Math.max(1, Number(grams) || 1);
+    if (boxes === undefined) {
+      boxes = modalInputBoxes ? (parseInt(modalInputBoxes.value, 10) || 1) : 1;
+    }
+    boxes = Math.max(1, Number(boxes) || 1);
     
     var rate = Number(selectedItemForModal.rate) || 0;
     var pricePerGram = rate / 1000.0;
-    var total = pricePerGram * grams;
+    var pricePerBox = pricePerGram * grams;
+    var total = pricePerBox * boxes;
+    var totalGrams = grams * boxes;
 
-    modalCalcFormula.textContent = '(' + inrRound(rate) + ' ÷ 1000g) × ' + grams + 'g';
-    modalCalcPrice.textContent = inr(total);
-    modalCalcSub.textContent = 'Calculated for exact ' + grams + ' grams (' + (grams >= 1000 ? (grams/1000).toFixed(3) + ' kg' : grams + ' g') + ')';
+    if (boxes > 1) {
+      modalCalcFormula.textContent = boxes + ' boxes × (' + inrRound(rate) + ' ÷ 1000g × ' + grams + 'g)';
+      modalCalcPrice.textContent = inr(total);
+      var totalWtStr = totalGrams >= 1000 ? (totalGrams / 1000).toFixed(3) + ' kg' : totalGrams + ' g';
+      modalCalcSub.textContent = boxes + ' boxes of ' + grams + 'g each (' + inr(pricePerBox) + '/box · Total: ' + totalWtStr + ')';
+    } else {
+      modalCalcFormula.textContent = '(' + inrRound(rate) + ' ÷ 1000g) × ' + grams + 'g';
+      modalCalcPrice.textContent = inr(total);
+      modalCalcSub.textContent = 'Calculated for exact ' + grams + ' grams (' + (grams >= 1000 ? (grams/1000).toFixed(3) + ' kg' : grams + ' g') + ')';
+    }
   }
 
   // Calculate Unit Count Price
@@ -286,7 +310,8 @@ document.addEventListener('DOMContentLoaded', function () {
       this.classList.add('active');
       var g = parseInt(this.getAttribute('data-grams'), 10);
       modalInputGrams.value = g;
-      recalcModalGramPrice(g);
+      var b = modalInputBoxes ? (parseInt(modalInputBoxes.value, 10) || 1) : 1;
+      recalcModalGramPrice(g, b);
     });
   });
 
@@ -296,14 +321,16 @@ document.addEventListener('DOMContentLoaded', function () {
       if (parseInt(c.getAttribute('data-grams'), 10) === g) c.classList.add('active');
       else c.classList.remove('active');
     });
-    recalcModalGramPrice(g);
+    var b = modalInputBoxes ? (parseInt(modalInputBoxes.value, 10) || 1) : 1;
+    recalcModalGramPrice(g, b);
   });
 
   if (modalGramMinus) {
     modalGramMinus.addEventListener('click', function () {
       var g = Math.max(25, (parseInt(modalInputGrams.value, 10) || 250) - 50);
       modalInputGrams.value = g;
-      recalcModalGramPrice(g);
+      var b = modalInputBoxes ? (parseInt(modalInputBoxes.value, 10) || 1) : 1;
+      recalcModalGramPrice(g, b);
     });
   }
 
@@ -311,7 +338,68 @@ document.addEventListener('DOMContentLoaded', function () {
     modalGramPlus.addEventListener('click', function () {
       var g = (parseInt(modalInputGrams.value, 10) || 250) + 50;
       modalInputGrams.value = g;
-      recalcModalGramPrice(g);
+      var b = modalInputBoxes ? (parseInt(modalInputBoxes.value, 10) || 1) : 1;
+      recalcModalGramPrice(g, b);
+    });
+  }
+
+  // Quick Box / Packs Preset Chips & Steppers for Weighed Items
+  if (boxChipButtons) {
+    boxChipButtons.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        boxChipButtons.forEach(function (c) { c.classList.remove('active'); });
+        this.classList.add('active');
+        var b = parseInt(this.getAttribute('data-boxes'), 10) || 1;
+        if (modalInputBoxes) modalInputBoxes.value = b;
+        var g = parseInt(modalInputGrams.value, 10) || 250;
+        recalcModalGramPrice(g, b);
+      });
+    });
+  }
+
+  if (modalInputBoxes) {
+    modalInputBoxes.addEventListener('input', function () {
+      var b = Math.max(1, parseInt(this.value, 10) || 1);
+      if (boxChipButtons) {
+        boxChipButtons.forEach(function (c) {
+          if (parseInt(c.getAttribute('data-boxes'), 10) === b) c.classList.add('active');
+          else c.classList.remove('active');
+        });
+      }
+      var g = parseInt(modalInputGrams.value, 10) || 250;
+      recalcModalGramPrice(g, b);
+    });
+  }
+
+  if (modalBoxMinus) {
+    modalBoxMinus.addEventListener('click', function () {
+      var cur = parseInt(modalInputBoxes.value, 10) || 1;
+      var b = Math.max(1, cur - 1);
+      modalInputBoxes.value = b;
+      if (boxChipButtons) {
+        boxChipButtons.forEach(function (c) {
+          if (parseInt(c.getAttribute('data-boxes'), 10) === b) c.classList.add('active');
+          else c.classList.remove('active');
+        });
+      }
+      var g = parseInt(modalInputGrams.value, 10) || 250;
+      recalcModalGramPrice(g, b);
+    });
+  }
+
+  if (modalBoxPlus) {
+    modalBoxPlus.addEventListener('click', function () {
+      var cur = parseInt(modalInputBoxes.value, 10) || 1;
+      var b = cur + 1;
+      modalInputBoxes.value = b;
+      if (boxChipButtons) {
+        boxChipButtons.forEach(function (c) {
+          if (parseInt(c.getAttribute('data-boxes'), 10) === b) c.classList.add('active');
+          else c.classList.remove('active');
+        });
+      }
+      var g = parseInt(modalInputGrams.value, 10) || 250;
+      recalcModalGramPrice(g, b);
     });
   }
 
@@ -340,12 +428,16 @@ document.addEventListener('DOMContentLoaded', function () {
     var lineAmount = 0;
     var grams = 0;
     var count = 1;
+    var boxes = 1;
 
     if (item.unit === 'kg') {
       grams = Math.max(1, parseInt(modalInputGrams.value, 10) || 250);
-      lineAmount = (Number(item.rate) / 1000.0) * grams;
+      boxes = Math.max(1, parseInt(modalInputBoxes ? modalInputBoxes.value : 1, 10) || 1);
+      count = boxes;
+      lineAmount = (Number(item.rate) / 1000.0) * grams * boxes;
     } else {
       count = Math.max(1, parseInt(modalInputCount.value, 10) || 1);
+      boxes = count;
       lineAmount = Number(item.rate) * count;
     }
 
@@ -356,7 +448,9 @@ document.addEventListener('DOMContentLoaded', function () {
       rate: item.rate,
       unit: item.unit,
       grams: grams,
+      boxes: boxes,
       count: count,
+      totalGrams: item.unit === 'kg' ? (grams * boxes) : 0,
       amount: lineAmount
     });
 
@@ -365,6 +459,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var mBadge = document.getElementById('pos-m-cart-badge');
     if (mBadge) mBadge.textContent = cart.length;
+
+    var wtDesc = '';
+    if (item.unit === 'kg') {
+      var singleWt = (grams >= 1000 ? (grams/1000).toFixed(1) + 'kg' : grams + 'g');
+      wtDesc = boxes > 1 ? (boxes + ' boxes × ' + singleWt) : singleWt;
+    } else {
+      var uWrd = item.unit === 'box' ? (count > 1 ? 'boxes' : 'box') : (count > 1 ? 'pcs' : 'pc');
+      wtDesc = count + ' ' + uWrd;
+    }
+    showNotification('✅ Added ' + wtDesc + ' ' + item.name + ' (' + inr(lineAmount) + ') to Bill!');
+
+    if (navigator.vibrate) {
+      try { navigator.vibrate(40); } catch (e) {}
+    }
   });
 
   // Custom Item Modal Prompt
@@ -398,19 +506,36 @@ document.addEventListener('DOMContentLoaded', function () {
       var html = cart.map(function (row, idx) {
         var qtyDisplay = '';
         var calcNote = '';
+        var boxes = row.boxes || row.count || 1;
+
         if (row.unit === 'kg') {
-          qtyDisplay = (row.grams >= 1000 ? (row.grams/1000).toFixed(3) + ' kg' : row.grams + ' g');
-          calcNote = inrRound(row.rate) + '/kg × ' + qtyDisplay;
+          var singleWt = (row.grams >= 1000 ? (row.grams/1000) + 'kg' : row.grams + 'g');
+          if (boxes > 1) {
+            var totalG = row.grams * boxes;
+            var totalWt = totalG >= 1000 ? (totalG/1000).toFixed(3) + ' kg' : totalG + ' g';
+            qtyDisplay = boxes + ' boxes × ' + singleWt;
+            calcNote = inrRound(row.rate) + '/kg · ' + boxes + ' boxes × ' + singleWt + ' (Total: ' + totalWt + ')';
+          } else {
+            qtyDisplay = singleWt;
+            calcNote = inrRound(row.rate) + '/kg × ' + singleWt;
+          }
         } else {
-          var uLabel = row.unit === 'box' ? (row.count > 1 ? 'boxes' : 'box') : (row.count > 1 ? 'pcs' : 'pc');
-          qtyDisplay = row.count + ' ' + uLabel;
-          calcNote = inrRound(row.rate) + '/' + row.unit + ' × ' + row.count;
+          var uLabel = row.unit === 'box' ? (boxes > 1 ? 'boxes' : 'box') : (boxes > 1 ? 'pcs' : 'pc');
+          qtyDisplay = boxes + ' ' + uLabel;
+          calcNote = inrRound(row.rate) + '/' + row.unit + ' × ' + boxes;
         }
 
         return '<div class="pos-cart-item-row">' +
           '<div class="pos-cart-item-meta">' +
-            '<div class="pos-cart-item-name">' + esc(row.name) + '</div>' +
+            '<div class="pos-cart-item-name">' + esc(row.name) +
+              '<span class="pos-cart-item-qty-tag">' + esc(qtyDisplay) + '</span>' +
+            '</div>' +
             '<div class="pos-cart-item-calc">' + esc(calcNote) + '</div>' +
+          '</div>' +
+          '<div class="pos-cart-item-qty-adjust">' +
+            '<button type="button" class="pos-cart-qty-btn pos-cart-qty-minus" data-idx="' + idx + '" title="Decrease quantity">-</button>' +
+            '<span class="pos-cart-qty-val">' + boxes + '</span>' +
+            '<button type="button" class="pos-cart-qty-btn pos-cart-qty-plus" data-idx="' + idx + '" title="Increase quantity">+</button>' +
           '</div>' +
           '<div class="pos-cart-item-amount">' + inr(row.amount) + '</div>' +
           '<button class="pos-cart-del-btn" type="button" data-idx="' + idx + '" title="Remove item">&times;</button>' +
@@ -426,6 +551,49 @@ document.addEventListener('DOMContentLoaded', function () {
           renderCart();
         });
       });
+
+      // Attach quantity adjusters (+ / -) in cart list
+      cartTbody.querySelectorAll('.pos-cart-qty-plus').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var idx = parseInt(this.getAttribute('data-idx'), 10);
+          var row = cart[idx];
+          if (!row) return;
+          var cur = row.boxes || row.count || 1;
+          cur++;
+          row.boxes = cur;
+          row.count = cur;
+          if (row.unit === 'kg') {
+            row.totalGrams = row.grams * cur;
+            row.amount = (Number(row.rate) / 1000.0) * row.totalGrams;
+          } else {
+            row.amount = Number(row.rate) * cur;
+          }
+          renderCart();
+        });
+      });
+
+      cartTbody.querySelectorAll('.pos-cart-qty-minus').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var idx = parseInt(this.getAttribute('data-idx'), 10);
+          var row = cart[idx];
+          if (!row) return;
+          var cur = row.boxes || row.count || 1;
+          if (cur > 1) {
+            cur--;
+            row.boxes = cur;
+            row.count = cur;
+            if (row.unit === 'kg') {
+              row.totalGrams = row.grams * cur;
+              row.amount = (Number(row.rate) / 1000.0) * row.totalGrams;
+            } else {
+              row.amount = Number(row.rate) * cur;
+            }
+          } else {
+            cart.splice(idx, 1);
+          }
+          renderCart();
+        });
+      });
     }
 
     // Calculations
@@ -433,7 +601,10 @@ document.addEventListener('DOMContentLoaded', function () {
     var subtotal = 0;
     cart.forEach(function (row) {
       subtotal += row.amount;
-      if (row.unit === 'kg') totalGrams += row.grams;
+      if (row.unit === 'kg') {
+        var b = row.boxes || row.count || 1;
+        totalGrams += (row.grams * b);
+      }
     });
 
     var fancyBoxCheck = document.getElementById('pos-toggle-fancy-box');
@@ -478,7 +649,19 @@ document.addEventListener('DOMContentLoaded', function () {
       prnTbody.innerHTML = '<tr><td colspan="3" style="text-align:center">No items</td></tr>';
     } else {
       prnTbody.innerHTML = cart.map(function (row) {
-        var wtStr = row.unit === 'kg' ? (row.grams >= 1000 ? (row.grams/1000).toFixed(3) + 'kg' : row.grams + 'g') : row.count + ' ' + row.unit;
+        var wtStr = '';
+        var boxes = row.boxes || row.count || 1;
+        if (row.unit === 'kg') {
+          var singleWt = row.grams >= 1000 ? (row.grams/1000).toFixed(3) + 'kg' : row.grams + 'g';
+          if (boxes > 1) {
+            wtStr = boxes + ' bxs × ' + singleWt;
+          } else {
+            wtStr = singleWt;
+          }
+        } else {
+          wtStr = boxes + ' ' + row.unit;
+        }
+
         return '<tr>' +
           '<td>' + esc(row.name) + '</td>' +
           '<td>' + wtStr + '</td>' +
@@ -525,14 +708,30 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
       pdfTbody.innerHTML = cart.map(function (row, idx) {
         var rateStr = inrRound(row.rate) + (row.unit === 'box' ? '/box' : (row.unit === 'piece' ? '/pc' : '/kg'));
-        var wtStr = row.unit === 'kg' ? (row.grams >= 1000 ? (row.grams/1000).toFixed(3) + ' kg' : row.grams + ' g') : row.count + ' ' + (row.unit === 'box' ? (row.count > 1 ? 'boxes' : 'box') : (row.count > 1 ? 'pcs' : 'pc'));
+        var wtStr = '';
+        var boxes = row.boxes || row.count || 1;
+
+        if (row.unit === 'kg') {
+          var singleWt = (row.grams >= 1000 ? (row.grams/1000).toFixed(3) + ' kg' : row.grams + ' g');
+          if (boxes > 1) {
+            var totalG = row.grams * boxes;
+            var totalWt = totalG >= 1000 ? (totalG/1000).toFixed(3) + ' kg' : totalG + ' g';
+            wtStr = '<b>' + boxes + ' boxes × ' + singleWt + '</b><div style="font-size:10px;color:#7c6a55;font-weight:normal">(Total: ' + totalWt + ')</div>';
+          } else {
+            wtStr = '<b>' + singleWt + '</b>';
+          }
+        } else {
+          var uLabel = row.unit === 'box' ? (boxes > 1 ? 'boxes' : 'box') : (boxes > 1 ? 'pcs' : 'pc');
+          wtStr = '<b>' + boxes + ' ' + uLabel + '</b>';
+        }
+
         var deva = row.nameHi ? ' <span style="font-size:11px;color:#7c6a55">(' + esc(row.nameHi) + ')</span>' : '';
 
         return '<tr>' +
           '<td style="text-align:center;font-weight:bold">' + (idx + 1) + '</td>' +
           '<td><b>' + esc(row.name) + '</b>' + deva + '</td>' +
           '<td style="text-align:center">' + rateStr + '</td>' +
-          '<td style="text-align:center"><b>' + wtStr + '</b></td>' +
+          '<td style="text-align:center">' + wtStr + '</td>' +
           '<td style="text-align:right;font-weight:bold;color:var(--burgundy)">' + inr(row.amount) + '</td>' +
         '</tr>';
       }).join('');
